@@ -16,6 +16,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.test.app.dto.BookInfoDto;
 import com.test.app.dto.ResultDto;
@@ -65,6 +66,7 @@ public class BookService {
 	}
 	
 	@Async
+	@Transactional(value="transationManager2", readOnly=true)
 	public CompletableFuture<BookInfoDto> asyncGetBook2(String bookID)
 	{
 		String sql = "SELECT BookID, BookName, PublishDate FROM testdb.book"
@@ -74,6 +76,7 @@ public class BookService {
 	}
 
 	@Async
+	@Transactional(value="transationManager2")
 	public CompletableFuture<ResultDto> asyncCreateBook(BookInfoDto book)
 	{
 		String sql = "INSERT INTO testdb.book(BookName, PublishDate) " 
